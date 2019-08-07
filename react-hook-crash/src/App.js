@@ -10,7 +10,7 @@ export default () => {
   //   destroyed: false
   // });
 
-  const [selectedCharacter, setSelectedCharacter] = useState("1");
+  const [selectedCharacter, setSelectedCharacter] = useState(1);
 
   const [chosenSide, setChosenSide] = useState("light");
 

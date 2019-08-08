@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import Summary from "./Summary";
 
-export default ({ selectedChar }) => {
+export default memo(({ selectedChar }) => {
   //state = { loadedCharacter: {}, isLoading: false };
   const [loadedCharacter, setLoadedCharacter] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +50,8 @@ export default ({ selectedChar }) => {
   //   );
   // }
 
+  console.log("Rendering ... ");
+
   // componentDidUpdate(prevProps) {
   //   console.log('Component did update');
   //   if (prevProps.selectedChar !== this.props.selectedChar) {
@@ -96,4 +98,4 @@ export default ({ selectedChar }) => {
     content = <p>Failed to fetch character.</p>;
   }
   return content;
-};
+});

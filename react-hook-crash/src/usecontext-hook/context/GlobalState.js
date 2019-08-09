@@ -1,56 +1,26 @@
-import React, { useState } from "react";
-
+import React, { useReducer } from "react";
 import ShopContext from "./shop-context";
+import { shopReducer, ADD_PRODUCT, REMOVE_PRODUCT } from "./reducers";
 
-export default ({children}) => {
-  const [products, setProducts] = useState([
+export default ({ children }) => {
+  const products = [
     { id: "p1", title: "Gaming Mouse", price: 29.99 },
     { id: "p2", title: "Harry Potter 3", price: 9.99 },
     { id: "p3", title: "Used plastic bottle", price: 0.99 },
     { id: "p4", title: "Half-dried plant", price: 2.99 }
-  ]);
-  const [cart, setCart] = useState([]);
+  ];
+
+  const [cartState, dispatch] = useReducer(shopReducer, { cart: [] });
 
   const addProductToCart = product => {
-    console.log("Adding product", product);
-    const updatedCart = [...cart];
-    const updatedItemIndex = updatedCart.findIndex(
-      item => item.id === product.id
-    );
-
-    if (updatedItemIndex < 0) {
-      updatedCart.push({ ...product, quantity: 1 });
-    } else {
-      const updatedItem = {
-        ...updatedCart[updatedItemIndex]
-      };
-      updatedItem.quantity++;
-      updatedCart[updatedItemIndex] = updatedItem;
-    }
     setTimeout(() => {
-      setCart(updatedCart);
+      dispatch({ type: ADD_PRODUCT, product: product });
     }, 700);
   };
 
-
   const removeProductFromCart = productId => {
-    console.log("Removing product with id: " + productId);
-    const updatedCart = [...cart];
-    const updatedItemIndex = updatedCart.findIndex(
-      item => item.id === productId
-    );
-
-    const updatedItem = {
-      ...updatedCart[updatedItemIndex]
-    };
-    updatedItem.quantity--;
-    if (updatedItem.quantity <= 0) {
-      updatedCart.splice(updatedItemIndex, 1);
-    } else {
-      updatedCart[updatedItemIndex] = updatedItem;
-    }
     setTimeout(() => {
-      setCart(updatedCart);
+      dispatch({ type: REMOVE_PRODUCT, productId: productId });
     }, 700);
   };
 
@@ -58,7 +28,7 @@ export default ({children}) => {
     <ShopContext.Provider
       value={{
         products,
-        cart,
+        cart: cartState.cart,
         addProductToCart,
         removeProductFromCart
       }}
